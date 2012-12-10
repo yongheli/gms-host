@@ -41,7 +41,7 @@ done/vminit:
 	vagrant up || true # ignore errors on the first init
 	vagrant ssh -c 'sudo apt-get update; sudo apt-get install -q - --force-yes nfs-client make'
 	vagrant reload
-	vagrant ssh -c 'cd /opt/gms; make done/home'
+	vagrant ssh -c 'cd /opt/gms && make done/home && make done/account && make done/group'
 	touch $@
 	#
 	# 'now run "vagrant ssh", then "cd /opt/gms; make done/hostinit"'
@@ -108,6 +108,9 @@ done/unzip-refdata: done/download-refdata
 done/account:
 	sudo groupadd genome || echo ...
 	sudo useradd genome -c 'The GMS System User' -g genome -d $(GMS_HOME) || echo ...
+
+done/group:
+	sudo usermod -a -G genome $(USER)
 
 done/home: 
 	#
