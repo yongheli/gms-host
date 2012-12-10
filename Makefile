@@ -41,10 +41,10 @@ done/vminit:
 	vagrant up || true # ignore errors on the first init
 	vagrant ssh -c 'sudo apt-get update; sudo apt-get install -q - --force-yes nfs-client make'
 	vagrant reload
-	vagrant ssh -c 'cd /opt/gms; make home'
+	vagrant ssh -c 'cd /opt/gms; make done/home'
 	touch $@
 	#
-	# 'now run "vagrant ssh", then "cd /opt/gms; make hostinit"'
+	# 'now run "vagrant ssh", then "cd /opt/gms; make done/hostinit"'
 	#
 	
 done/hostinit: stage-files done/home done/rails done/apache done/db-data
@@ -97,7 +97,7 @@ done/download-refdata: setup/archive-files/MANIFEST
 
 done/unzip-refdata: done/download-refdata
 	# unzip disk allocations for reference sequences, etc.
-	\ls setup/data/volumes-refdata-tgz/*gz | perl -ne 'chomp; print "tar -zxvf $$_ -C data/fs/\n" if /\S/' | sh
+	\ls setup/archive-files/volumes-refdata-tgz/*gz | perl -ne 'chomp; print "tar -zxvf $$_ -C fs/\n" if /\S/' | sh
 	touch $@	
 
 #####
@@ -174,6 +174,7 @@ done/rails: done/pkgs
 	# install rails 
 	#
 	sudo gem install bundler --no-ri --no-rdoc --install-dir=/var/lib/gems/1.9.1
+	sudo chown www-data:www-data /var/www
 	sudo -u www-data rsync -r sw/rails/ /var/www/gms-webviews
 	cd /var/www/gms-webviews && sudo bundle install
 	[ -e /var/www/gms-webviews/tmp ] || sudo -u www-data mkdir /var/www/gms-webviews/tmp
@@ -220,7 +221,7 @@ done/db-data: done/db-schema
 	#
 	# import initial data into the RDBMS
 	#
-	source setup/etc/genome.conf; setup/import-db-data.pl setup/dump-db.out
+	. setup/etc/genome.conf; setup/import-db-data.pl setup/dump-db.out
 	touch $@	
 
 
