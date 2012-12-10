@@ -1,0 +1,41 @@
+############# config ##################
+set base_path DIR/apt-mirror-min-ubuntu-10.04
+#set mirror_path  $base_path/mirror
+#set skel_path    $base_path/skel
+#set var_path     $base_path/var
+#set cleanscript $var_path/clean.sh
+#set defaultarch  &lt;running host architecture&gt;
+#set postmirror_script $var_path/postmirror.sh
+set run_postmirror 0
+set nthreads     10
+set _tilde 0
+
+#==> genome.list <==
+deb http://repo.gsc.wustl.edu/ubuntu lucid-genome-systems main
+deb http://repo.gsc.wustl.edu/ubuntu lucid-genome-development main
+
+#==> git-core-ppa-lucid.list <==
+#deb http://ppa.launchpad.net/git-core/ppa/ubuntu lucid main
+
+#==> lucid-backports.list <==
+#deb http://archive.ubuntu.com/ubuntu lucid-backports main universe multiverse restricted
+
+#==> r-cran.list <==
+#deb http://cran.wustl.edu/bin/linux/ubuntu lucid/
+#deb-src http://cran.wustl.edu/bin/linux/ubuntu lucid/
+
+#==> r-bioconductor.list <==
+#deb http://bioinformatics.rri.sari.ac.uk/cran2deb/rep testing main
+#deb-src http://bioinformatics.rri.sari.ac.uk/cran2deb/rep testing main
+
+#==> natty.list <==
+#deb http://us.archive.ubuntu.com/ubuntu/ natty main restricted
+#deb http://us.archive.ubuntu.com/ubuntu/ natty-updates main restricted
+#deb http://us.archive.ubuntu.com/ubuntu/ natty universe
+#deb http://us.archive.ubuntu.com/ubuntu/ natty-updates universe
+#deb http://us.archive.ubuntu.com/ubuntu/ natty multiverse
+#deb http://us.archive.ubuntu.com/ubuntu/ natty-updates multiverse
+#deb http://security.ubuntu.com/ubuntu natty-security main restricted
+#deb http://security.ubuntu.com/ubuntu natty-security universe
+#deb http://security.ubuntu.com/ubuntu natty-security multiverse
+

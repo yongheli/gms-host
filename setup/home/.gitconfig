@@ -1,0 +1,19 @@
+[user]
+    name = Scott Smith
+    email = ssmith@genome.wustl.edu
+[color]
+    status = auto
+    diff = auto 
+    branch = auto
+    interactive = auto
+[url "git@github.com:"]
+    insteadOf = "git://github.com/"
+[url "git@github.com:"]
+    insteadOf = "https://github.com/"
+[merge]
+    renameLimit = 10000
+[core]
+  preloadindex = 1
+[receive]
+  denyNonFastForwards = 0
+

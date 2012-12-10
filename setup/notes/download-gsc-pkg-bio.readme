@@ -1,0 +1,44 @@
+The following subdirectories of /gsc/pkg/bio are used by the GMS:
+454
+bamwindow
+beagle
+bedtools
+bowtie
+breakdancermax
+broad
+bsmap
+bwa
+chimerascan
+circos
+cufflinks
+euler
+fastqc
+fastx
+flexibleadapter
+gatk
+genemark.hmm
+genometools
+glimmer
+maq
+meta_rna
+mosaik
+mummer
+novocraft
+rfam
+rnammer
+rtg
+samstat
+samtools
+shrimp
+shrimp2
+snap
+soap
+softberry
+ssaha2
+tigrasv
+tophat
+velvet
+
+A tarball containing everything but velvet, rfam, and mosaik is at linus43:/home/archive/gpb1.tar.gz
+The other three are in a directory next-to the tarball, named gpb2.  They are very large and not critical to most pipelines.
+

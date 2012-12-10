@@ -1,0 +1,42 @@
+#1 MB owned by Genome::Model::Build::ImportedVariationList: 106375969 of dbSNP-g1k-human-build37
+/gscmnt/gc4096/info/model_data/2868377411/build106375969
+
+#59344 MB owned by Genome::Model::Build::ImportedReferenceSequence: g1k-human-build37 (102671028)
+/gscmnt/gc4096/info/model_data/2857786885/build102671028
+
+#78 MB owned by Genome::Model::Build::GenotypeMicroarray: 121439820 of H_JG-701414_763290-1206178.prod-microarray.wugc.infinium.GRCh37-lite-build37
+/gscmnt/gc8001/info/model_data/2883318190/build121439820
+
+#10907 MB owned by Genome::Model::Tools::DetectVariants2::Result::Manual: 117604286
+/gscmnt/ams1127/info/build_merged_alignments/detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-117604286
+
+#1 MB owned by Genome::Model::Build::ImportedVariationList: 110108854 of dbSNP-132-whitelist-g1k-human-build37
+/gscmnt/ams1102/info/model_data/2874849802/build110108854
+
+#10629 MB owned by Genome::Model::Tools::DetectVariants2::Result::Manual: 117603728
+/gscmnt/gc8001/info/build_merged_alignments/detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-117603728
+
+#6338 MB owned by Genome::FeatureList: NCBI-human-build37-dbsnp132-whitelist (-1305149794-1102-10002)
+/gscmnt/ams1102/info/feature_list/-1305149794-1102-10002
+
+#79 MB owned by Genome::Model::Build::GenotypeMicroarray: 121439682 of H_JG-701414_763290-1205725.prod-microarray.wugc.infinium.GRCh37-lite-build37
+/gscmnt/gc7001/info/model_data/2883318186/build121439682
+
+#2726 MB owned by Genome::InstrumentData::Imported: infinium genotype file 2883304890 (From PIDFA 121420263)
+/gscmnt/gc7000/info/instrument_data/imported/2883304890
+
+#9303 MB owned by Genome::Model::Build::ImportedAnnotation: 106409296 of NCBI-human.ensembl
+/gscmnt/ams1102/info/model_data/2772828715/build106409296
+
+#8229 MB owned by Genome::Model::Build::ImportedAnnotation: 106409619 of NCBI-human.combined-annotation
+/gscmnt/ams1102/info/model_data/2771411739/build106409619
+
+#5315 MB owned by Genome::FeatureList: dbsnp-132-snv (linus129.gsc.wustl.edu-19229-1293604984-1293605049-3550-10002)
+/gscmnt/ams1102/info/feature_list/linus129.gsc.wustl.edu-19229-1293604984-1293605049-3550-10002
+
+#42967 MB owned by Genome::Model::Build::ImportedReferenceSequence: GRCh37-lite-build37 (106942997)
+/gscmnt/ams1102/info/model_data/2869585698/build106942997
+
+#2726 MB owned by Genome::InstrumentData::Imported: infinium genotype file 2883304891 (From PIDFA 121420314)
+/gscmnt/gc7000/info/instrument_data/imported/2883304891
+
