@@ -72,7 +72,7 @@ setup/archive-files/apps.tgz:
 	# download apps which are not packaged as .debs
 	cd setup/archive-files; $(FTP) $(DATASERVER)/apps.tgz 
 	
-done/unzip-apps.tgz: setup/archive-files/apps.tgz
+done/unzip-apps: setup/archive-files/apps.tgz
 	# unzip apps which are not packaged as .debs (publicly available from other sources)
 	tar -zxvf $< -C sw
 	touch $@ 
