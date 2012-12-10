@@ -47,7 +47,7 @@ done/vminit:
 	# 'now run "vagrant ssh", then "cd /opt/gms; make done/hostinit"'
 	#
 	
-done/hostinit: stage-files done/home done/rails done/apache done/db-data
+done/hostinit: done/account stage-files done/home done/rails done/apache done/db-data
 
 #####
 
@@ -104,6 +104,10 @@ done/unzip-refdata: done/download-refdata
 # hostinit:
 # When using a vagrant vm, this must happen on the VM.
 # On a standalone machine it can happen along with the "stage-files" targets, though most will occur after those steps run because they depend on them.
+
+done/account:
+	sudo groupadd genome || echo ...
+	sudo useradd genome -c 'The GMS System User' -g gms -d $(GMS_HOME) || echo ...
 
 done/home: 
 	#
