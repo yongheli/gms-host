@@ -1,0 +1,12 @@
+[submodule "sw/workflow"]
+	path = sw/workflow
+	url = https://github.com/genome/tgi-workflow.git
+[submodule "sw/ur"]
+	path = sw/ur
+	url = https://github.com/genome/UR.git
+[submodule "sw/rails"]
+	path = sw/rails
+	url = https://github.com/genome/gms-webviews.git
+[submodule "sw/genome"]
+	path = sw/genome
+	url = https://github.com/genome/gms-core.git

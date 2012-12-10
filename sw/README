@@ -1,0 +1,6 @@
+apps                        A directory tree of unpackaged apps.
+apt-mirror-min-ubuntu-12.04 A file-based mirror of an apt repository for packaged apps.
+genome                      A checkout of the gms-core repo using the gms-host branch.
+workflow                    A checkout of the tgi-workflow repo using the gms-host branch.
+ur                          A checkout of the UR repo.
+rails                       A checkout of the gms-webviews repo.
