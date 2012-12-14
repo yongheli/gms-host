@@ -39,7 +39,7 @@ for my $dump (@dumps) {
         }
         
         if ($hash->{$key} =~ m|gscmnt|) {
-            if ($hash->{$key} =~ s|gscmnt|opt/gms/data|) {
+            if ($hash->{$key} =~ s|gscmnt|opt/gms/fs|) {
                 print STDERR "updated $class $id $key to $hash->{$key}\n";
             }
             else {
