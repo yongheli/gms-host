@@ -140,9 +140,9 @@ done/account:
 	sudo groupadd genome || echo ...
 	sudo useradd genome -c 'The GMS System User' -g genome -d $(GMS_HOME) || echo ...
 
-done/group:
-	sudo usermod -a -G genome $(USER)
-
+done/group: done/account
+	sudo usermod -a -G genome $(USER) || echo ...
+	
 done/home: 
 	#
 	# copying configuration into the current user's home directory
