@@ -50,7 +50,7 @@ done/vminit:
 	# 'now run "vagrant ssh", then "cd /opt/gms; make done/hostinit"'
 	#
 	
-done/hostinit: done/account stage-files done/home done/rails done/apache done/db-data
+done/hostinit: done/account stage-files done/home done/rails done/apache done/db-data done/openlava
 
 #####
 
