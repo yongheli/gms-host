@@ -16,6 +16,9 @@ FTP:=$(shell (uname | grep Linux) 1>/dev/null && (which ncftpget || sudo apt-get
 DOWNLOAD_TARGET=
 #DOWNLOAD_TARGET=.
 
+IP:=$(shell ifconfig | grep 'inet addr' | perl -ne '/inet addr:(\S+)/ && print $$1,"\n"' | grep -v 127.0.0.1)
+HOSTNAME:=$(shell hostname)
+
 #####
 
 # in a non-VM environment the default target "all" will build the entire system
@@ -28,7 +31,7 @@ vm: stage-files done/vminit
 
 #####
 
-stage-files: done/git-checkouts done/unzip-apps done/unzip-apt-mirror-min-ubuntu-12.04 done/unzip-refdata
+stage-files: done/git-checkouts done/unzip-apps done/unzip-apt-mirror-min-ubuntu-12.04 done/unzip-refdata done/openlava
 
 done/vminit: 
 	#
@@ -66,6 +69,34 @@ done/git-checkouts:
 	# get the gms-core from github
 	git submodule update --init sw/genome	
 	cd sw/genome; git checkout gms-host; git pull origin gms-host
+	touch $@
+
+done/openlava-install:
+	# get openlava OSS LSF
+	git submodule update --init sw/openlava
+	cd sw/openlava; git checkout 2.0-release; git pull origin 2.0-release 
+	cd sw/openlava && ./bootstrap.sh && make && make check && sudo make install 
+	touch $@ 
+
+done/hosts:
+	echo "$(IP) GMS_HOST" | ./findreplace-gms | sudo bash -c 'cat - >>/etc/hosts'
+	touch $@ 
+
+done/openlava: done/openlava-install done/hosts
+	sudo chown -R genome:root /opt/openlava-2.0/work/  
+	sudo cp /opt/openlava-2.0/etc/openlava /etc/init.d/openlava
+	sudo chmod +x /etc/init.d/openlava
+	sudo ln -s /etc/init.d/openlava /etc/rc3.d/S98openlava || echo ...
+	sudo ln -s /etc/init.d/openlava /etc/rc4.d/S98openlava || echo ...
+	sudo ln -s /etc/init.d/openlava /etc/rc5.d/S98openlava || echo ...
+	sudo ln -s /etc/init.d/openlava /etc/rc3.d/K07openlava || echo ...
+	sudo ln -s /etc/init.d/openlava /etc/rc4.d/K07openlava || echo ...
+	sudo ln -s /etc/init.d/openlava /etc/rc5.d/K07openlava || echo ...
+	sudo cp setup/openlava-config/lsb.queues /opt/openlava-2.0/etc/lsb.queues
+	cat setup/openlava-config/lsf.cluster.openlava | ./findreplace-gms > /tmp/lsf.cluster.openlava
+	sudo cp /tmp/lsf.cluster.openlava /opt/openlava-2.0/etc/lsf.cluster.openlava
+	sudo /etc/init.d/openlava start || sudo /etc/init.d/openlava restart
+	sudo /etc/init.d/openlava status
 	touch $@
 
 setup/archive-files/apps.tgz:

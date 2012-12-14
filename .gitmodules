@@ -10,3 +10,6 @@
 [submodule "sw/genome"]
 	path = sw/genome
 	url = https://github.com/genome/gms-core.git
+[submodule "sw/openlava"]
+	path = sw/openlava
+	url = git://github.com/openlava/openlava.git
