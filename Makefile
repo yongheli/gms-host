@@ -82,7 +82,7 @@ done/hosts:
 	echo "$(IP) GMS_HOST" | ./findreplace-gms | sudo bash -c 'cat - >>/etc/hosts'
 	touch $@ 
 
-done/openlava: done/openlava-install done/hosts
+done/openlava: done/openlava-install done/hosts done/etc
 	sudo chown -R genome:root /opt/openlava-2.0/work/  
 	sudo cp /opt/openlava-2.0/etc/openlava /etc/init.d/openlava
 	sudo chmod +x /etc/init.d/openlava

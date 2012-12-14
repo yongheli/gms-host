@@ -6,7 +6,6 @@ my $hostname = Sys::Hostname::hostname;
 
 my %replace = (
     GMS_HOST => $hostname,
-    GMS_ID => $ENV{GENOME_SYS_ID},
 );
 my $line = 0;
 while (my $row = <>) {
