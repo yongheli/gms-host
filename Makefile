@@ -31,7 +31,7 @@ vm: stage-files done/vminit
 
 #####
 
-stage-files: done/git-checkouts done/unzip-apps done/unzip-apt-mirror-min-ubuntu-12.04 done/unzip-refdata done/openlava
+stage-files: done/git-checkouts done/unzip-apps done/unzip-apt-mirror-min-ubuntu-12.04 done/unzip-refdata done/openlava-download
 
 done/vminit: 
 	#
@@ -50,7 +50,7 @@ done/vminit:
 	# 'now run "vagrant ssh", then "cd /opt/gms; make done/hostinit"'
 	#
 	
-done/hostinit: done/account stage-files done/home done/rails done/apache done/db-data done/openlava
+done/hostinit: done/account done/group stage-files done/home done/rails done/apache done/db-data done/openlava-install
 
 #####
 
@@ -71,33 +71,15 @@ done/git-checkouts:
 	cd sw/genome; git checkout gms-host; git pull origin gms-host
 	touch $@
 
-done/openlava-install:
+done/openlava-download:
 	# get openlava OSS LSF
 	git submodule update --init sw/openlava
 	cd sw/openlava; git checkout 2.0-release; git pull origin 2.0-release 
-	cd sw/openlava && ./bootstrap.sh && make && make check && sudo make install 
 	touch $@ 
 
 done/hosts:
 	echo "$(IP) GMS_HOST" | ./findreplace-gms | sudo bash -c 'cat - >>/etc/hosts'
 	touch $@ 
-
-done/openlava: done/openlava-install done/hosts done/etc
-	sudo chown -R genome:root /opt/openlava-2.0/work/  
-	sudo cp /opt/openlava-2.0/etc/openlava /etc/init.d/openlava
-	sudo chmod +x /etc/init.d/openlava
-	sudo ln -s /etc/init.d/openlava /etc/rc3.d/S98openlava || echo ...
-	sudo ln -s /etc/init.d/openlava /etc/rc4.d/S98openlava || echo ...
-	sudo ln -s /etc/init.d/openlava /etc/rc5.d/S98openlava || echo ...
-	sudo ln -s /etc/init.d/openlava /etc/rc3.d/K07openlava || echo ...
-	sudo ln -s /etc/init.d/openlava /etc/rc4.d/K07openlava || echo ...
-	sudo ln -s /etc/init.d/openlava /etc/rc5.d/K07openlava || echo ...
-	sudo cp setup/openlava-config/lsb.queues /opt/openlava-2.0/etc/lsb.queues
-	cat setup/openlava-config/lsf.cluster.openlava | ./findreplace-gms > /tmp/lsf.cluster.openlava
-	sudo cp /tmp/lsf.cluster.openlava /opt/openlava-2.0/etc/lsf.cluster.openlava
-	sudo /etc/init.d/openlava start || sudo /etc/init.d/openlava restart
-	sudo /etc/init.d/openlava status
-	touch $@
 
 setup/archive-files/apps.tgz:
 	# download apps which are not packaged as .debs
@@ -183,6 +165,18 @@ done/pkgs: done/etc
 	# install rails dependency packages
 	#
 	sudo apt-get install -q -y --force-yes git ruby1.9.1 ruby1.9.1-dev rubygems1.9.1 irb1.9.1 ri1.9.1 rdoc1.9.1 build-essential apache2 libopenssl-ruby1.9.1 libssl-dev zlib1g-dev libcurl4-openssl-dev apache2-prefork-dev libapr1-dev libaprutil1-dev postgresql postgresql-contrib libpq-dev libxslt-dev libxml2-dev genome-rails-prod
+	touch $@
+
+done/openlava-install: done/openlava-download done/hosts done/etc done/pkgs
+	cd sw/openlava && ./bootstrap.sh && make && make check && sudo make install 
+	sudo chown -R genome:root /opt/openlava-2.0/work/  
+	sudo chmod +x /etc/init.d/openlava
+	sudo update-rc.d openlava defaults 98 02 || echo ...
+	sudo cp setup/openlava-config/lsb.queues /opt/openlava-2.0/etc/lsb.queues
+	cat setup/openlava-config/lsf.cluster.openlava | ./findreplace-gms > /tmp/lsf.cluster.openlava
+	sudo cp /tmp/lsf.cluster.openlava /opt/openlava-2.0/etc/lsf.cluster.openlava
+	sudo /etc/init.d/openlava start || sudo /etc/init.d/openlava restart
+	sudo /etc/init.d/openlava status
 	touch $@
 
 done/db-init: done/pkgs 
