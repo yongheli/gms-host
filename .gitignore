@@ -2,6 +2,7 @@ setup/archive-files
 setup/archive-files-internal
 setup/archive-files-internal-test
 sw/apps/
+sw/java/
 sw/apt-mirror-min-*
 fs/*
 db/*

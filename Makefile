@@ -5,7 +5,7 @@
 GMS_HOME=/opt/gms
 
 # data which is too big to fit in the git repository is staged here
-DATASERVER=ftp://genome.wustl.edu:/pub/software/gms/setup/archive-files
+DATASERVER=ftp://genome.wustl.edu:/pub/software/gms
 #DATASERVER=blade12-1-1:/gscmnt/sata849/info/gms/setup/archive-files/
 
 # the tool to use for bulk file transfer
@@ -31,7 +31,7 @@ vm: stage-files done/vminit
 
 #####
 
-stage-files: done/git-checkouts done/unzip-apps done/unzip-apt-mirror-min-ubuntu-12.04 done/unzip-refdata done/openlava-download
+stage-files: done/git-checkouts done/unzip-apps done/unzip-java done/unzip-apt-mirror-min-ubuntu-12.04 done/unzip-refdata done/openlava-download
 
 done/vminit: 
 	#
@@ -85,8 +85,17 @@ setup/archive-files/apps.tgz:
 	# download apps which are not packaged as .debs
 	cd setup/archive-files; $(FTP) $(DATASERVER)/apps.tgz 
 	
+setup/archive-files/java.tgz:
+	# download java which are not packaged as .debs
+	cd setup/archive-files; $(FTP) $(DATASERVER)/java.tgz 
+
 done/unzip-apps: setup/archive-files/apps.tgz
 	# unzip apps which are not packaged as .debs (publicly available from other sources)
+	tar -zxvf $< -C sw
+	touch $@ 
+
+done/unzip-java: setup/archive-files/java.tgz
+	# unzip java classes which are not packaged as .debs 
 	tar -zxvf $< -C sw
 	touch $@ 
 
