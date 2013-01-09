@@ -6,7 +6,7 @@ GMS_HOME=/opt/gms
 
 # data which is too big to fit in the git repository is staged here
 DATASERVER=ftp://genome.wustl.edu:/pub/software/gms
-#DATASERVER=blade12-1-1:/gscmnt/sata849/info/gms/setup/archive-files/
+#DATASERVER=blade12-1-1:/gscmnt/sata102/info/ftp-staging/pub/software
 
 # the tool to use for bulk file transfer
 FTP:=$(shell (uname | grep Linux) 1>/dev/null && (which ncftpget || sudo apt-get install ncftp) 1>/dev/null && echo "ncftpget" || echo "ftp")
