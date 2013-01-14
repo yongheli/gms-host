@@ -175,6 +175,11 @@ done/pkgs: done/etc
 	#
 	sudo apt-get install -q -y --force-yes git ruby1.9.1 ruby1.9.1-dev rubygems1.9.1 irb1.9.1 ri1.9.1 rdoc1.9.1 build-essential apache2 libopenssl-ruby1.9.1 libssl-dev zlib1g-dev libcurl4-openssl-dev apache2-prefork-dev libapr1-dev libaprutil1-dev postgresql postgresql-contrib libpq-dev libxslt-dev libxml2-dev genome-rails-prod
 	touch $@
+	#
+	# install unpackaged Perl modules
+	#
+	curl https://raw.github.com/miyagawa/cpanminus/master/cpanm > cpanm 
+	sudo ./cpanm Getopt::Complete
 
 done/openlava-install: done/openlava-download done/hosts done/etc done/pkgs
 	cd sw/openlava && ./bootstrap.sh && make && make check && sudo make install 
