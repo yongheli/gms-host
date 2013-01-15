@@ -5,7 +5,8 @@ sw/apps/
 sw/java/
 sw/apt-mirror-min-*
 fs/*
-db/*
+db/tgi-misc-annotation/
+db/tgi-cancer-annotation/
 var/tmp/
 var/lock/
 var/log/command_line_usage/

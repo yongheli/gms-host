@@ -69,6 +69,9 @@ done/git-checkouts:
 	# get the gms-core from github
 	git submodule update --init sw/genome	
 	cd sw/genome; git checkout gms-host; git pull origin gms-host
+	# 
+	git submodule update --init sw/genome	
+	cd sw/genome; git checkout gms-host; git pull origin gms-host
 	touch $@
 
 done/openlava-download:
@@ -121,6 +124,12 @@ done/unzip-refdata: done/download-refdata
 	# unzip disk allocations for reference sequences, etc.
 	\ls setup/archive-files/volumes-refdata-tgz/*gz | perl -ne 'chomp; print "tar -zxvf $$_ -C fs/\n" if /\S/' | sh
 	touch $@	
+
+done/annotation:
+	# extra annotation data sets
+	git clone https://github.com/genome/tgi-misc-annotation.git --branch human-build37-20130113 db/tgi-misc-annotation/human-build37-20130113
+	git clone https://github.com/genome/tgi-cancer-annotation.git --branch human-build37-20130113 db/tgi-cancer-annotation/human-build37-20130113
+	touch $@
 
 #####
 # hostinit:
@@ -286,6 +295,8 @@ update-repos:
 	cd sw/ur; git pull origin master
 	cd sw/workflow; git pull origin gms-host
 	cd sw/rails; git pull origin master
+	cd db/tgi-misc-annotation/human-build37-20130113; git pull origin
+	cd db/tgi-cancer-annotation/human-build37-20130113; git pull origin
 	[ -d /var/www/gms-webviews ] || sudo mkdir /var/www/gms-webviews
 	sudo chown -R www-data:www-data /var/www/gms-webviews/
 	sudo -u www-data rsync -r sw/rails/ /var/www/gms-webviews
