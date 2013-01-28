@@ -10,4 +10,5 @@ db/tgi-cancer-annotation/
 var/tmp/
 var/lock/
 var/log/command_line_usage/
+var/cache/san/
 .vagrant
