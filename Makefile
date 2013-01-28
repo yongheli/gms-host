@@ -128,6 +128,7 @@ done/unzip-refdata: done/download-refdata
 done/annotation:
 	# extra annotation data sets
 	git clone https://github.com/genome/tgi-misc-annotation.git --branch human-build37-20130113 db/tgi-misc-annotation/human-build37-20130113
+	git clone https://github.com/genome/tgi-misc-annotation.git --branch human-build36-20130113 db/tgi-misc-annotation/human-build36-20130113
 	git clone https://github.com/genome/tgi-cancer-annotation.git --branch human-build37-20130113 db/tgi-cancer-annotation/human-build37-20130113
 	touch $@
 
