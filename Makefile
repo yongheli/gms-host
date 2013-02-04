@@ -111,14 +111,11 @@ done/unzip-apt-mirror-min-ubuntu-12.04: setup/archive-files/apt-mirror-min-ubunt
 	tar -zxvf $< -C sw  
 	touch $@ 
 
-setup/archive-files/MANIFEST:
-	# download apps which are not packaged as .debs
-	cd setup/archive-files; $(FTP) $(DATASERVER)/MANIFEST $(DOWNLOAD_TARGET)
+setup/archive-files/volumes-refdata-tgz/%.tgz:
+	# ftp $@
+	cd setup/archive-files/volumes-refdata-tgz; $(FTP) $(DATASERVER)/volumes-refdata-tgz/`basename $@` $(DOWNLOAD_TARGET)
 
-done/download-refdata: setup/archive-files/MANIFEST
-	# filesystem primer data (reference data)
-	cd setup/archive-files/volumes-refdata-tgz; cat ../MANIFEST | grep volumes | perl -ne 'chomp; print "$(FTP) $(DATASERVER)/$$_ $(DOWNLOAD_TARGET)\n"' | sh
-	touch $@
+done/download-refdata: setup/archive-files/volumes-refdata-tgz/ams1102+info+feature_list+-1305149794-1102-10002.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+feature_list+linus129.gsc.wustl.edu-19229-1293604984-1293605049-3550-10002.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2771411739.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2772828715.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2869585698.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2874849802.tgz setup/archive-files/volumes-refdata-tgz/ams1127+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-11760428.tgz setup/archive-files/volumes-refdata-tgz/gc4096+info+model_data+2857786885.tgz setup/archive-files/volumes-refdata-tgz/gc4096+info+model_data+2868377411.tgz 
 
 done/unzip-refdata: done/download-refdata
 	# unzip disk allocations for reference sequences, etc.
