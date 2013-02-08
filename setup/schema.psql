@@ -411,7 +411,7 @@ CREATE TABLE model (
     auto_assign_inst_data boolean,
     auto_build_alignments boolean,
     subject_id character varying(32) NOT NULL,
-    subject_class_name character varying(500) NOT NULL,
+    subject_class_name character varying(500),
     keep boolean DEFAULT false,
     build_granularity_unit character varying(20),
     build_granularity_value integer,
