@@ -112,15 +112,23 @@ done/unzip-apt-mirror-min-ubuntu-12.04: setup/archive-files/apt-mirror-min-ubunt
 	touch $@ 
 
 setup/archive-files/volumes-refdata-tgz/%.tgz:
-	# ftp $@
+	# ftp down refdata: $@
 	cd setup/archive-files/volumes-refdata-tgz; $(FTP) $(DATASERVER)/volumes-refdata-tgz/`basename $@` $(DOWNLOAD_TARGET)
 
-done/download-refdata: setup/archive-files/volumes-refdata-tgz/ams1102+info+feature_list+-1305149794-1102-10002.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+feature_list+linus129.gsc.wustl.edu-19229-1293604984-1293605049-3550-10002.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2771411739.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2772828715.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2869585698.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2874849802.tgz setup/archive-files/volumes-refdata-tgz/ams1127+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-11760428.tgz setup/archive-files/volumes-refdata-tgz/gc4096+info+model_data+2857786885.tgz setup/archive-files/volumes-refdata-tgz/gc4096+info+model_data+2868377411.tgz 	gc8001+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-117603728.tgz 
+done/unzip-%: setup/archive-files/volumes-refdata-tgz/%
+	# unzip refdata: $<
+	tar -zxvf $< -C fs/
+	touch $@
 
-done/unzip-refdata: done/download-refdata
-	# unzip disk allocations for reference sequences, etc.
-	\ls setup/archive-files/volumes-refdata-tgz/*gz | perl -ne 'chomp; print "tar -zxvf $$_ -C fs/\n" if /\S/' | sh
-	touch $@	
+done/unzip-refdata: done/unzip-ams1102+info+feature_list+-1305149794-1102-10002.tgz done/unzip-ams1102+info+feature_list+linus129.gsc.wustl.edu-19229-1293604984-1293605049-3550-10002.tgz done/unzip-ams1102+info+model_data+2771411739.tgz done/unzip-ams1102+info+model_data+2772828715.tgz done/unzip-ams1102+info+model_data+2869585698.tgz done/unzip-ams1102+info+model_data+2874849802.tgz done/unzip-ams1127+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-11760428.tgz done/unzip-gc4096+info+model_data+2857786885.tgz done/unzip-gc4096+info+model_data+2868377411.tgz 	done/unzip-gc8001+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-117603728.tgz 
+
+xxx:
+	#done/download-refdata: setup/archive-files/volumes-refdata-tgz/ams1102+info+feature_list+-1305149794-1102-10002.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+feature_list+linus129.gsc.wustl.edu-19229-1293604984-1293605049-3550-10002.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2771411739.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2772828715.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2869585698.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2874849802.tgz setup/archive-files/volumes-refdata-tgz/ams1127+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-11760428.tgz setup/archive-files/volumes-refdata-tgz/gc4096+info+model_data+2857786885.tgz setup/archive-files/volumes-refdata-tgz/gc4096+info+model_data+2868377411.tgz 	gc8001+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-117603728.tgz 
+	#done/unzip-refdataOLD: done/download-refdata
+	  # unzip disk allocations for reference sequences, etc.
+	  #\ls setup/archive-files/volumes-refdata-tgz/*gz | perl -ne 'chomp; print "tar -zxvf $$_ -C fs/\n" if /\S/' | sh
+	  #touch $@	
+	#unzipped/unzip-all-refdataOLD: fs/ams1102/info/feature_list/-1305149794-1102-10002/unzipped fs/ams1102/info/feature_list/linus129.gsc.wustl.edu-19229-1293604984-1293605049-3550-10002/unzipped fs/ams1102/info/model_data/2771411739/unzipped fs/ams1102/info/model_data/2772828715/unzipped fs/ams1102/info/model_data/2869585698/unzipped fs/ams1102/info/model_data/2874849802/unzipped fs/ams1127/info/build_merged_alignments/detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-11760428/unzipped fs/gc4096/info/model_data/2857786885/unzipped fs/gc4096/info/model_data/2868377411/unzipped 	gc8001/info/build_merged_alignments/detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-117603728/unzipped 
 
 done/annotation:
 	# extra annotation data sets
