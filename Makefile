@@ -81,7 +81,7 @@ done/openlava-download:
 	touch $@ 
 
 done/hosts:
-	echo "$(IP) GMS_HOST" | ./findreplace-gms | sudo bash -c 'cat - >>/etc/hosts'
+	echo "$(IP) GMS_HOST" | setup/bin/findreplace-gms | sudo bash -c 'cat - >>/etc/hosts'
 	touch $@ 
 
 setup/archive-files/apps.tgz:
@@ -115,15 +115,16 @@ setup/archive-files/volumes-refdata-tgz/%.tgz:
 	# ftp down refdata: $@
 	cd setup/archive-files/volumes-refdata-tgz; $(FTP) $(DATASERVER)/volumes-refdata-tgz/`basename $@` $(DOWNLOAD_TARGET)
 
+done/download-refdata: setup/archive-files/volumes-refdata-tgz/ams1102+info+feature_list+-1305149794-1102-10002.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+feature_list+linus129.gsc.wustl.edu-19229-1293604984-1293605049-3550-10002.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2771411739.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2772828715.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2869585698.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2874849802.tgz setup/archive-files/volumes-refdata-tgz/ams1127+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-11760428.tgz setup/archive-files/volumes-refdata-tgz/gc4096+info+model_data+2857786885.tgz setup/archive-files/volumes-refdata-tgz/gc4096+info+model_data+2868377411.tgz 	setup/archive-files/volumes-refdata-tgz/gc8001+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-117603728.tgz 
+
 done/unzip-%: setup/archive-files/volumes-refdata-tgz/%
 	# unzip refdata: $<
 	tar -zxvf $< -C fs/
 	touch $@
 
-done/unzip-refdata: done/unzip-ams1102+info+feature_list+-1305149794-1102-10002.tgz done/unzip-ams1102+info+feature_list+linus129.gsc.wustl.edu-19229-1293604984-1293605049-3550-10002.tgz done/unzip-ams1102+info+model_data+2771411739.tgz done/unzip-ams1102+info+model_data+2772828715.tgz done/unzip-ams1102+info+model_data+2869585698.tgz done/unzip-ams1102+info+model_data+2874849802.tgz done/unzip-ams1127+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-11760428.tgz done/unzip-gc4096+info+model_data+2857786885.tgz done/unzip-gc4096+info+model_data+2868377411.tgz 	done/unzip-gc8001+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-117603728.tgz 
+done/unzip-refdata: done/download-refdata done/unzip-ams1102+info+feature_list+-1305149794-1102-10002.tgz done/unzip-ams1102+info+feature_list+linus129.gsc.wustl.edu-19229-1293604984-1293605049-3550-10002.tgz done/unzip-ams1102+info+model_data+2771411739.tgz done/unzip-ams1102+info+model_data+2772828715.tgz done/unzip-ams1102+info+model_data+2869585698.tgz done/unzip-ams1102+info+model_data+2874849802.tgz done/unzip-ams1127+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-11760428.tgz done/unzip-gc4096+info+model_data+2857786885.tgz done/unzip-gc4096+info+model_data+2868377411.tgz 	done/unzip-gc8001+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-117603728.tgz 
 
 xxx:
-	#done/download-refdata: setup/archive-files/volumes-refdata-tgz/ams1102+info+feature_list+-1305149794-1102-10002.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+feature_list+linus129.gsc.wustl.edu-19229-1293604984-1293605049-3550-10002.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2771411739.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2772828715.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2869585698.tgz setup/archive-files/volumes-refdata-tgz/ams1102+info+model_data+2874849802.tgz setup/archive-files/volumes-refdata-tgz/ams1127+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-11760428.tgz setup/archive-files/volumes-refdata-tgz/gc4096+info+model_data+2857786885.tgz setup/archive-files/volumes-refdata-tgz/gc4096+info+model_data+2868377411.tgz 	gc8001+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-117603728.tgz 
 	#done/unzip-refdataOLD: done/download-refdata
 	  # unzip disk allocations for reference sequences, etc.
 	  #\ls setup/archive-files/volumes-refdata-tgz/*gz | perl -ne 'chomp; print "tar -zxvf $$_ -C fs/\n" if /\S/' | sh
@@ -193,8 +194,9 @@ done/pkgs: done/etc
 	#
 	# install unpackaged Perl modules
 	#
-	curl https://raw.github.com/miyagawa/cpanminus/master/cpanm > cpanm 
-	sudo ./cpanm Getopt::Complete
+	curl https://raw.github.com/miyagawa/cpanminus/master/cpanm >| setup/bin/cpanm
+	chmod +x setup/bin/cpanm
+	sudo setup/bin/cpanm Getopt::Complete
 
 done/openlava-install: done/openlava-download done/hosts done/etc done/pkgs
 	cd sw/openlava && ./bootstrap.sh && make && make check && sudo make install 
@@ -202,7 +204,7 @@ done/openlava-install: done/openlava-download done/hosts done/etc done/pkgs
 	sudo chmod +x /etc/init.d/openlava
 	sudo update-rc.d openlava defaults 98 02 || echo ...
 	sudo cp setup/openlava-config/lsb.queues /opt/openlava-2.0/etc/lsb.queues
-	cat setup/openlava-config/lsf.cluster.openlava | ./findreplace-gms > /tmp/lsf.cluster.openlava
+	cat setup/openlava-config/lsf.cluster.openlava | setup/bin/findreplace-gms > /tmp/lsf.cluster.openlava
 	sudo cp /tmp/lsf.cluster.openlava /opt/openlava-2.0/etc/lsf.cluster.openlava
 	sudo /etc/init.d/openlava start || sudo /etc/init.d/openlava restart
 	sudo /etc/init.d/openlava status
@@ -282,7 +284,7 @@ done/db-data: done/db-schema
 	#
 	# import initial data into the RDBMS
 	#
-	. setup/etc/genome.conf; setup/import-db-data.pl setup/dump-db.out
+	source setup/etc/genome.conf; setup/import-db-data.pl setup/dump-db.out
 	touch $@	
 
 
