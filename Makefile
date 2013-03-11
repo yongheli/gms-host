@@ -104,6 +104,8 @@ done/unzip-apps: setup/archive-files/apps.tgz
 done/unzip-apps-2013-03-10: done/unzip-apps setup/archive-files/apps-2013-03-10.tgz
 	# unzip apps which are not packaged as .debs (publicly available from other sources)
 	tar -zxvf setup/archive-files/apps-2013-03-10.tgz -C sw
+	mv sw/apps-2013-03-10/gtfToGenePhred/0.1/gtfToGenePhred sw/apps-2013-03-10/gtfToGenePhred/0.1/gtfToGenePred
+	mv sw/apps-2013-03-10/gtfToGenePhred sw/apps-2013-03-10/gtfToGenePred
 	cd sw/apps && ln -s ../../sw/apps-2013-03-10/* .
 	touch $@ 
 
