@@ -103,8 +103,8 @@ done/unzip-apps: setup/archive-files/apps.tgz
 
 done/unzip-apps-2013-03-10: done/unzip-apps setup/archive-files/apps-2013-03-10.tgz
 	# unzip apps which are not packaged as .debs (publicly available from other sources)
-	tar -zxvf $< -C sw
-	cd apps; ln -s ../apps-2013-03-10/* .
+	tar -zxvf setup/archive-files/apps-2013-03-10.tgz -C sw
+	cd sw/apps && ln -s ../../sw/apps-2013-03-10/* .
 	touch $@ 
 
 done/unzip-java: setup/archive-files/java.tgz
@@ -143,10 +143,10 @@ done/annotation:
 
 done/annotation-20130310: done/annotation
 	mkdir -p db/dbsnp/human || echo ".."
-	git clone https://github.com/genome-vendor/genome-db-dbsnp-human.git --branch 132 db/dbsnp/human/132
+	git clone https://github.com/genome-vendor/genome-db-dbsnp-human.git --branch 132 db/dbsnp/human/132 || (cd db/dbsnp/human/132 && git pull) 
 	mkdir -p db/ensembl/human || echo ".."
-	git clone https://github.com/genome-vendor/genome-db-ensembl-human.git --branch 67_37l_v2 db/ensembl/human/67_37l_v2
-	cd db/tgi-misc-annotation/human-build37-20130113; git pull origin db/tgi-misc-annotation/human-build37-20130113
+	git clone https://github.com/genome-vendor/genome-db-ensembl-human.git --branch 67_37l_v2 db/ensembl/human/67_37l_v2 || (cd db/ensembl/human/67_37l_v2 && git pull)
+	cd db/tgi-misc-annotation/human-build37-20130113 && git pull origin human-build37-20130113
 	touch $@
 
 update-20130310: done/annotation-20130310 done/unzip-apps-2013-03-10
