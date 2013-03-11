@@ -5,7 +5,7 @@
 GMS_HOME=/opt/gms
 
 # data which is too big to fit in the git repository is staged here
-DATASERVER=ftp://genome.wustl.edu:/pub/software/gms
+DATASERVER=ftp://genome.wustl.edu/pub/software/gms
 #DATASERVER=blade12-1-1:/gscmnt/sata102/info/ftp-staging/pub/software/gms
 
 # the tool to use for bulk file transfer
@@ -31,7 +31,7 @@ vm: stage-files done/vminit
 
 #####
 
-stage-files: done/git-checkouts done/unzip-apps done/unzip-java done/unzip-apt-mirror-min-ubuntu-12.04 done/unzip-refdata done/openlava-download
+stage-files: done/git-checkouts done/unzip-apps done/unzip-apps-2013-03-10 done/unzip-java done/unzip-apt-mirror-min-ubuntu-12.04 done/unzip-refdata done/openlava-download
 
 done/vminit: 
 	#
@@ -88,6 +88,10 @@ setup/archive-files/apps.tgz:
 	# download apps which are not packaged as .debs
 	cd setup/archive-files; $(FTP) $(DATASERVER)/apps.tgz 
 	
+setup/archive-files/apps-2013-03-10.tgz:
+	# download apps which are not packaged as .debs
+	cd setup/archive-files; $(FTP) $(DATASERVER)/apps-2013-03-10.tgz 
+
 setup/archive-files/java.tgz:
 	# download java which are not packaged as .debs
 	cd setup/archive-files; $(FTP) $(DATASERVER)/java.tgz 
@@ -95,6 +99,12 @@ setup/archive-files/java.tgz:
 done/unzip-apps: setup/archive-files/apps.tgz
 	# unzip apps which are not packaged as .debs (publicly available from other sources)
 	tar -zxvf $< -C sw
+	touch $@ 
+
+done/unzip-apps-2013-03-10: setup/archive-files/apps-2013-03-10.tgz
+	# unzip apps which are not packaged as .debs (publicly available from other sources)
+	tar -zxvf $< -C sw
+	cd apps; ln -s ../apps-2013-03-10/* .
 	touch $@ 
 
 done/unzip-java: setup/archive-files/java.tgz
