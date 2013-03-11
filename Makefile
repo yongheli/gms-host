@@ -31,7 +31,7 @@ vm: stage-files done/vminit
 
 #####
 
-stage-files: done/git-checkouts done/unzip-apps done/unzip-apps-2013-03-10 done/unzip-java done/unzip-apt-mirror-min-ubuntu-12.04 done/unzip-refdata done/openlava-download
+stage-files: update-20130310 done/git-checkouts done/unzip-apps done/unzip-java done/unzip-apt-mirror-min-ubuntu-12.04 done/unzip-refdata done/openlava-download
 
 done/vminit: 
 	#
@@ -101,7 +101,7 @@ done/unzip-apps: setup/archive-files/apps.tgz
 	tar -zxvf $< -C sw
 	touch $@ 
 
-done/unzip-apps-2013-03-10: setup/archive-files/apps-2013-03-10.tgz
+done/unzip-apps-2013-03-10: done/unzip-apps setup/archive-files/apps-2013-03-10.tgz
 	# unzip apps which are not packaged as .debs (publicly available from other sources)
 	tar -zxvf $< -C sw
 	cd apps; ln -s ../apps-2013-03-10/* .
@@ -134,19 +134,21 @@ done/unzip-%: setup/archive-files/volumes-refdata-tgz/%
 
 done/unzip-refdata: done/download-refdata done/unzip-ams1102+info+feature_list+-1305149794-1102-10002.tgz done/unzip-ams1102+info+feature_list+linus129.gsc.wustl.edu-19229-1293604984-1293605049-3550-10002.tgz done/unzip-ams1102+info+model_data+2771411739.tgz done/unzip-ams1102+info+model_data+2772828715.tgz done/unzip-ams1102+info+model_data+2869585698.tgz done/unzip-ams1102+info+model_data+2874849802.tgz done/unzip-ams1127+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-11760428.tgz done/unzip-gc4096+info+model_data+2857786885.tgz done/unzip-gc4096+info+model_data+2868377411.tgz 	done/unzip-gc8001+info+build_merged_alignments+detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-117603728.tgz 
 
-xxx:
-	#done/unzip-refdataOLD: done/download-refdata
-	  # unzip disk allocations for reference sequences, etc.
-	  #\ls setup/archive-files/volumes-refdata-tgz/*gz | perl -ne 'chomp; print "tar -zxvf $$_ -C fs/\n" if /\S/' | sh
-	  #touch $@	
-	#unzipped/unzip-all-refdataOLD: fs/ams1102/info/feature_list/-1305149794-1102-10002/unzipped fs/ams1102/info/feature_list/linus129.gsc.wustl.edu-19229-1293604984-1293605049-3550-10002/unzipped fs/ams1102/info/model_data/2771411739/unzipped fs/ams1102/info/model_data/2772828715/unzipped fs/ams1102/info/model_data/2869585698/unzipped fs/ams1102/info/model_data/2874849802/unzipped fs/ams1127/info/build_merged_alignments/detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-11760428/unzipped fs/gc4096/info/model_data/2857786885/unzipped fs/gc4096/info/model_data/2868377411/unzipped 	gc8001/info/build_merged_alignments/detect-variants--blade14-4-11.gsc.wustl.edu-tmooney-9412-117603728/unzipped 
-
 done/annotation:
 	# extra annotation data sets
 	git clone https://github.com/genome/tgi-misc-annotation.git --branch human-build37-20130113 db/tgi-misc-annotation/human-build37-20130113
-	git clone https://github.com/genome/tgi-misc-annotation.git --branch human-build36-20130113 db/tgi-misc-annotation/human-build36-20130113
 	git clone https://github.com/genome/tgi-cancer-annotation.git --branch human-build37-20130113 db/tgi-cancer-annotation/human-build37-20130113
 	touch $@
+
+done/annotation-20130310: done/annotation
+	mkdir -p db/dbsnp/human || echo ".."
+	git clone https://github.com/genome-vendor/genome-db-dbsnp-human.git --branch 132 db/dbsnp/human/132
+	mkdir -p db/ensembl/human || echo ".."
+	git clone https://github.com/genome-vendor/genome-db-ensembl-human.git --branch 67_37l_v2 db/ensembl/human/67_37l_v2
+	cd db/tgi-misc-annotation/human-build37-20130113; git pull origin db/tgi-misc-annotation/human-build37-20130113
+	touch $@
+
+update-20130310: done/annotation-20130310 done/unzip-apps-2013-03-10
 
 #####
 # hostinit:
